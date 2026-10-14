@@ -106,13 +106,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                         <a href="#skills" className="hover:text-indigo-400 transition">Technical Skills</a>
                         <a href="#projects" className="hover:text-indigo-400 transition">Projects & CAD</a>
                         <a href="#education" className="hover:text-indigo-400 transition">Education</a>
-                        <button 
-                            onClick={() => setIsCvModalOpen(true)}
-                            className="text-indigo-300 hover:text-white font-semibold transition flex items-center space-x-1.5 bg-indigo-950/40 hover:bg-indigo-900/50 px-3.5 py-1.5 rounded-xl border border-indigo-500/30"
-                        >
-                            <FileText className="w-3.5 h-3.5 text-indigo-400" />
-                            <span>Lihat CV</span>
-                        </button>
                         <a href="#contact" className="hover:text-indigo-400 transition">Contact</a>
                     </nav>
 
@@ -159,13 +152,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             <a href="#skills" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Technical Skills</a>
                             <a href="#projects" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Projects & CAD</a>
                             <a href="#education" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Education</a>
-                            <button 
-                                onClick={() => { setMobileMenuOpen(false); setIsCvModalOpen(true); }}
-                                className="text-left text-indigo-300 font-bold flex items-center space-x-1.5"
-                            >
-                                <FileText className="w-4 h-4 text-indigo-400" />
-                                <span>Lihat Curriculum Vitae</span>
-                            </button>
                             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Contact</a>
                         </div>
                         <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
