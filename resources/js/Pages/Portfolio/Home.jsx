@@ -173,12 +173,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     {/* Left Column: Bio Details */}
                     <div className="lg:col-span-7 space-y-6">
-                        {/* Live Seeking Internship Badge */}
-                        <div className="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span>{profile?.hero_badge || 'Seeking an internship in the oil & gas industry'}</span>
-                        </div>
-
                         <div className="space-y-3">
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
                                 {profile?.full_name || 'Achmad Daffa Ihtifazuddin'}
