@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: portodaffa
+    name: achmaddaffa-porto
     runtime: docker
     plan: free
     region: singapore
