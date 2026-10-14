@@ -215,13 +215,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             </a>
                         </div>
 
-                        {/* Quick tags */}
-                        <div className="pt-4 flex flex-wrap gap-2 text-xs font-mono text-slate-400">
-                            <span className="px-3 py-1 rounded-lg bg-[#0D121F] border border-slate-800">ASME B31.3 Piping</span>
-                            <span className="px-3 py-1 rounded-lg bg-[#0D121F] border border-slate-800">P&ID Development</span>
-                            <span className="px-3 py-1 rounded-lg bg-[#0D121F] border border-slate-800">SolidWorks 3D CAD</span>
-                            <span className="px-3 py-1 rounded-lg bg-[#0D121F] border border-slate-800">ANSYS FEA Stress</span>
-                        </div>
                     </div>
 
                     {/* Right Column: Blueprint CAD Bento Card */}
