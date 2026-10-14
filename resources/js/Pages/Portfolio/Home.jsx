@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { 
-    Flame, 
     ArrowRight, 
     Download, 
     Mail, 
@@ -95,15 +94,10 @@ export default function Home({ profile, projects = [], skills = [], experiences 
             <header className="sticky top-0 z-40 glass-panel border-b border-slate-800/80 transition-all">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     {/* Brand */}
-                    <a href="#" className="flex items-center space-x-3 group">
-                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-blue-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-                            <Flame className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                            <span className="font-extrabold text-lg tracking-tight text-white block group-hover:text-indigo-400 transition">
-                                Portfolio
-                            </span>
-                        </div>
+                    <a href="#" className="flex items-center group">
+                        <span className="font-extrabold text-xl tracking-tight text-white block group-hover:text-indigo-400 transition">
+                            Portfolio
+                        </span>
                     </a>
 
                     {/* Desktop Navigation Links */}
@@ -1232,9 +1226,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
             <footer className="border-t border-slate-800/80 bg-[#07090E] py-12 px-6">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500">
                     <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                            <Flame className="w-4 h-4" />
-                        </div>
                         <p>© {new Date().getFullYear()} Achmad Daffa Ihtifazuddin. D4 Mechanical Engineering Technology, Universitas Gadjah Mada.</p>
                     </div>
 

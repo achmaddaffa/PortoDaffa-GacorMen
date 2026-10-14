@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Flame, Mail, Lock, Eye, EyeOff, ArrowLeft, ShieldCheck, KeyRound } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowLeft, ShieldCheck, KeyRound } from 'lucide-react';
 
 export default function Login({ status, canResetPassword }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -53,8 +53,8 @@ export default function Login({ status, canResetPassword }) {
             <div className="w-full max-w-md bg-slate-900/85 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 space-y-6 shadow-2xl relative z-10">
                 {/* Header Brand */}
                 <div className="text-center space-y-3">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center mx-auto shadow-lg shadow-cyan-500/25">
-                        <Flame className="w-7 h-7 text-slate-950" />
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-blue-600 flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/25">
+                        <KeyRound className="w-7 h-7 text-white" />
                     </div>
                     <div>
                         <h1 className="text-xl font-extrabold text-white tracking-tight">Admin Portal</h1>

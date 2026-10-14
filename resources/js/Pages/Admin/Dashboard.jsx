@@ -10,7 +10,7 @@ import {
     CheckCircle2, 
     Clock, 
     Send, 
-    Flame,
+    ShieldCheck,
     FileText,
     ExternalLink
 } from 'lucide-react';
@@ -22,11 +22,11 @@ export default function Dashboard({ profile, stats = {}, recentMessages = [], re
 
             <div className="space-y-8 max-w-7xl mx-auto">
                 {/* Welcome Hero Banner */}
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/40 border border-cyan-500/20 p-6 md:p-8">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40 border border-indigo-500/20 p-6 md:p-8">
                     <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div className="space-y-2">
-                            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold">
-                                <Flame className="w-3.5 h-3.5" />
+                            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-semibold">
+                                <ShieldCheck className="w-3.5 h-3.5" />
                                 <span>Oil & Gas Mechanical Engineering Portfolio</span>
                             </div>
                             <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">

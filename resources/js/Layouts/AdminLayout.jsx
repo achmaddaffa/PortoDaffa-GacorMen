@@ -13,7 +13,6 @@ import {
     X, 
     CheckCircle2, 
     AlertCircle,
-    Flame,
     KeyRound
 } from 'lucide-react';
 
@@ -39,8 +38,8 @@ export default function AdminLayout({ children, title = 'Admin Panel' }) {
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800">
                 <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-sm border border-cyan-500/30">
-                        <Flame className="w-4 h-4 text-cyan-400" />
+                    <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs border border-indigo-500/30">
+                        <span>AD</span>
                     </div>
                     <span className="font-bold text-base tracking-wide text-white">Daffa Admin</span>
                 </div>
