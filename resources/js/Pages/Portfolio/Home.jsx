@@ -44,6 +44,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
     const [selectedSkillCategory, setSelectedSkillCategory] = useState('All');
     const [activeModalProject, setActiveModalProject] = useState(null);
     const [isCvModalOpen, setIsCvModalOpen] = useState(false);
+    const [cvTab, setCvTab] = useState('pdf');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     // Contact Form
@@ -811,38 +812,74 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
             {/* CURRICULUM VITAE PREVIEW & PDF DOWNLOAD MODAL */}
             {isCvModalOpen && (
-                <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-                    <div className="relative w-full max-w-4xl bg-[#090D17] border border-slate-700 rounded-3xl shadow-2xl max-h-[92vh] flex flex-col overflow-hidden my-auto">
+                <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto">
+                    <div className="relative w-full max-w-5xl bg-[#090D17] border border-slate-700 rounded-3xl shadow-2xl max-h-[94vh] flex flex-col overflow-hidden my-auto">
                         {/* Top Sticky Header */}
-                        <div className="px-6 py-4 border-b border-slate-800 bg-[#0D121F] flex flex-wrap items-center justify-between gap-4 sticky top-0 z-10">
+                        <div className="px-5 py-3.5 border-b border-slate-800 bg-[#0D121F] flex flex-wrap items-center justify-between gap-3 sticky top-0 z-10">
                             <div>
-                                <span className="text-[11px] font-mono uppercase tracking-wider text-indigo-400 font-semibold block">
+                                <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-400 font-semibold block">
                                     Curriculum Vitae Preview
                                 </span>
-                                <h3 className="text-lg font-bold text-white">
+                                <h3 className="text-base sm:text-lg font-bold text-white">
                                     {profile?.full_name || 'Achmad Daffa Ihtifazuddin'}
                                 </h3>
                             </div>
 
-                            <div className="flex items-center space-x-3">
-                                {/* Download / Print PDF Button */}
+                            {/* View Mode Switcher */}
+                            <div className="flex items-center bg-[#07090E] p-1 rounded-xl border border-slate-800 text-xs font-medium">
+                                <button
+                                    onClick={() => setCvTab('pdf')}
+                                    className={`px-3 py-1.5 rounded-lg transition ${
+                                        cvTab === 'pdf'
+                                            ? 'bg-indigo-600 text-white font-bold shadow-sm'
+                                            : 'text-slate-400 hover:text-white'
+                                    }`}
+                                >
+                                    Dokumen Asli (PDF)
+                                </button>
+                                <button
+                                    onClick={() => setCvTab('interactive')}
+                                    className={`px-3 py-1.5 rounded-lg transition ${
+                                        cvTab === 'interactive'
+                                            ? 'bg-indigo-600 text-white font-bold shadow-sm'
+                                            : 'text-slate-400 hover:text-white'
+                                    }`}
+                                >
+                                    Teks Responsif
+                                </button>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex items-center space-x-2">
+                                {/* Download PDF CV Button */}
+                                <a
+                                    href="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf"
+                                    download="CV-Achmad-Daffa-Ihtifazuddin.pdf"
+                                    className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition flex items-center space-x-1.5 shadow-lg shadow-indigo-600/25"
+                                >
+                                    <Download className="w-4 h-4" />
+                                    <span>Download PDF</span>
+                                </a>
+
+                                {/* Print Button */}
                                 <button
                                     onClick={handlePrintCV}
-                                    className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition flex items-center space-x-2 shadow-lg shadow-indigo-600/25"
+                                    className="p-2 rounded-xl bg-[#131B2E] text-slate-300 hover:text-white border border-slate-700 transition"
+                                    title="Cetak CV"
                                 >
                                     <Printer className="w-4 h-4" />
-                                    <span>Download / Cetak PDF</span>
                                 </button>
 
-                                {/* Full Page Link */}
-                                <Link
-                                    href="/cv"
+                                {/* Open in New Tab */}
+                                <a
+                                    href="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf"
                                     target="_blank"
+                                    rel="noreferrer"
                                     className="p-2 rounded-xl bg-[#131B2E] text-slate-300 hover:text-white border border-slate-700 transition"
-                                    title="Buka Halaman Penuh CV"
+                                    title="Buka Dokumen PDF di Tab Baru"
                                 >
                                     <ExternalLink className="w-4 h-4" />
-                                </Link>
+                                </a>
 
                                 {/* Close Button */}
                                 <button
@@ -855,271 +892,276 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             </div>
                         </div>
 
-                        {/* Scrollable CV Document */}
-                        <div className="overflow-y-auto p-6 sm:p-8 space-y-8 bg-[#090D17] text-slate-200">
-                            <div id="printable-cv" className="space-y-8">
-                                {/* CV Header */}
-                                <header className="border-b border-slate-800 pb-6 space-y-4">
-                                    <div className="space-y-1.5">
-                                        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight uppercase">
-                                            {profile?.full_name || 'Achmad Daffa Ihtifazuddin'}
-                                        </h1>
-                                        <p className="text-xs sm:text-sm font-semibold text-indigo-400">
-                                            Piping Engineering & Mechanical Design Enthusiast • Universitas Gadjah Mada
-                                        </p>
-                                    </div>
-
-                                    {/* Contact Badges */}
-                                    <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs font-mono text-slate-300">
-                                        <a href="tel:089649691208" className="inline-flex items-center space-x-1.5 hover:text-indigo-400">
-                                            <Phone className="w-3.5 h-3.5 text-indigo-400" />
-                                            <span>089649691208</span>
-                                        </a>
-                                        <span className="text-slate-600">•</span>
-                                        <a href="mailto:achmaddaffaihtifazuddin@gmail.com" className="inline-flex items-center space-x-1.5 hover:text-indigo-400">
-                                            <Mail className="w-3.5 h-3.5 text-indigo-400" />
-                                            <span>achmaddaffaihtifazuddin@gmail.com</span>
-                                        </a>
-                                        <span className="text-slate-600">•</span>
-                                        <a href="https://www.linkedin.com/in/achmaddaffaihtifazuddin" target="_blank" rel="noreferrer" className="inline-flex items-center space-x-1.5 hover:text-indigo-400">
-                                            <LinkedinIcon className="w-3.5 h-3.5 text-indigo-400" />
-                                            <span>linkedin.com/in/achmaddaffaihtifazuddin</span>
-                                        </a>
-                                        <span className="text-slate-600">•</span>
-                                        <span className="inline-flex items-center space-x-1.5 text-slate-400">
-                                            <MapPin className="w-3.5 h-3.5 text-indigo-400" />
-                                            <span>Karanganyar, Jawa Tengah, Indonesia</span>
-                                        </span>
-                                    </div>
-
-                                    {/* Summary Paragraph */}
-                                    <p className="text-xs sm:text-sm leading-relaxed text-slate-300 text-justify pt-1">
-                                        Mahasiswa Teknik Mesin Universitas Gadjah Mada semester 5 dengan peminatan Piping Engineering. Mampu membaca dan membuat P&ID, serta berpengalaman menggunakan SolidWorks, AutoCAD, Fusion 360, ANSYS, dan Abaqus untuk desain mekanik, desain manufaktur, dan Finite Element Analysis (FEA). Siap berkontribusi dan terus berkembang melalui program magang.
-                                    </p>
-                                </header>
-
-                                {/* Section 1: Experiences / Selected Engineering Projects */}
-                                <section className="space-y-4">
-                                    <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
-                                        <Briefcase className="w-4 h-4 text-indigo-400" />
-                                        <span>Experiences & Selected Engineering Projects</span>
-                                    </h2>
-
-                                    <div className="space-y-3.5 text-xs sm:text-sm">
-                                        <div className="space-y-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>Mechanical Design and Development of a 3-DOF Articulated Robot Arm</h3>
-                                                <span className="text-xs font-mono text-indigo-400/90">Universitas Gadjah Mada</span>
-                                            </div>
-                                            <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
-                                                <li>Designed a 3-DOF robotic arm using SOLIDWORKS, integrating mechanical components for efficient motion and structural stability.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="space-y-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>Design of a Portable Bamboo Slat Splitting Machine with Roller Feeding System and Diesel Power Drive</h3>
-                                                <span className="text-xs font-mono text-indigo-400/90">Universitas Gadjah Mada</span>
-                                            </div>
-                                            <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
-                                                <li>Designed a portable diesel-powered bamboo splitting machine using SOLIDWORKS, including roller feeding and mechanical transmission systems.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="space-y-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>Analisis Tegangan Crane Hook (mobile crane) dengan FEA</h3>
-                                                <span className="text-xs font-mono text-indigo-400/90">Universitas Gadjah Mada</span>
-                                            </div>
-                                            <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
-                                                <li>Optimized crane hook design using SOLIDWORKS FEA and topology optimization to reduce weight while maintaining structural integrity and load capacity.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="space-y-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>Design of a Shell and Tube Heat Exchanger</h3>
-                                                <span className="text-xs font-mono text-indigo-400/90">Universitas Gadjah Mada</span>
-                                            </div>
-                                            <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
-                                                <li>Designed a shell-and-tube heat exchanger, focusing on thermal performance, heat transfer efficiency, and mechanical design.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="space-y-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>Monitoring Cahaya dan Input Analog Berbasis Arduino UNO R3</h3>
-                                                <span className="text-xs font-mono text-indigo-400/90">Universitas Gadjah Mada</span>
-                                            </div>
-                                            <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
-                                                <li>Developed an Arduino UNO R3-based monitoring system to measure light intensity and analog input variations using an LDR and potentiometer, with real-time data visualization in Python.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="space-y-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>Barokah Sembada Pangan</h3>
-                                                <span className="text-xs font-mono text-slate-400">Store Manager (Family-Owned Grocery Store)</span>
-                                            </div>
-                                            <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
-                                                <li>Managed daily operations of a family-owned grocery store, including inventory, purchasing, pricing, and customer service.</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </section>
-
-                                {/* Section 2: Pendidikan */}
-                                <section className="space-y-4">
-                                    <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
-                                        <GraduationCap className="w-4 h-4 text-indigo-400" />
-                                        <span>Pendidikan</span>
-                                    </h2>
-
-                                    <div className="space-y-3 text-xs sm:text-sm">
-                                        <div className="space-y-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>Universitas Gadjah Mada <span className="font-normal text-slate-400">- Yogyakarta, Indonesia</span></h3>
-                                                <span className="text-xs font-mono text-indigo-400">Aug 2024 - Sekarang</span>
-                                            </div>
-                                            <p className="text-xs sm:text-sm font-semibold text-slate-300">
-                                                Bachelor Degree Mechanical Engineering Technology • <strong className="text-indigo-300">IPK: 3.39 / 4.00</strong>
-                                            </p>
-                                            <ul className="list-disc list-inside text-slate-400 text-xs pl-2">
-                                                <li>Guest Speaker for the Junior High School Alumni Association Launching Event</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="space-y-1 pt-1">
-                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
-                                                <h3>SMAS IT IBNU ABBAS KLATEN <span className="font-normal text-slate-400">- Klaten, Indonesia</span></h3>
-                                                <span className="text-xs font-mono text-slate-400">Jul 2021 - Jun 2024</span>
-                                            </div>
-                                            <p className="text-xs text-slate-400">Senior High School, Science</p>
-                                        </div>
-                                    </div>
-                                </section>
-
-                                {/* Section 3: Pengalaman Organisasi & Kepanitiaan */}
-                                <section className="space-y-4">
-                                    <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
-                                        <Users className="w-4 h-4 text-indigo-400" />
-                                        <span>Pengalaman Organisasi dan Kepanitiaan</span>
-                                    </h2>
-
-                                    <div className="space-y-2.5 text-xs sm:text-sm divide-y divide-slate-800/40">
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">Jama'ah Shalahuddin <span className="font-normal text-slate-400">- Yogyakarta</span></h3>
-                                                <p className="text-xs text-slate-300">Head of Cooperation and Upgrading Division</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-indigo-400">Jul 2025 - Feb 2026</span>
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">Jama'ah Shalahuddin <span className="font-normal text-slate-400">- Yogyakarta</span></h3>
-                                                <p className="text-xs text-slate-300">Cooperation and Upgrading Division Staff</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400">Jan 2025 - Jul 2025</span>
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">Institutional Benchmarking Visit <span className="font-normal text-slate-400">- Surabaya, Malang</span></h3>
-                                                <p className="text-xs text-slate-300">Representative of the Sharia Entrepreneurship Department</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400">Jun 2025</span>
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">SAJADHA Qurban Volunteer Program <span className="font-normal text-slate-400">- Yogyakarta</span></h3>
-                                                <p className="text-xs text-slate-300">Logistics & Equipment Staff</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400">Apr 2025 - Jun 2025</span>
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">Event Volunteer – BerbagiRasa 2025 BEM KM UGM <span className="font-normal text-slate-400">- Yogyakarta</span></h3>
-                                                <p className="text-xs text-slate-300">Subkoordinator Perlengkapan</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400">Aug 2025 - Oct 2025</span>
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">Mechanical Fair UGM 2025</h3>
-                                                <p className="text-xs text-slate-300">Finance & Treasury Staff</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400">Feb 2025 - May 2025</span>
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">RBM (Ramadhan Bersama Mardhliyah) <span className="font-normal text-slate-400">- Yogyakarta</span></h3>
-                                                <p className="text-xs text-slate-300">Logistics and Security Division Staff</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400">Jan 2025 - Apr 2025</span>
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pt-2">
-                                            <div>
-                                                <h3 className="font-bold text-white">RDK (Ramadhan Di Kampus) UGM</h3>
-                                                <p className="text-xs text-slate-300">VIP Services Staff</p>
-                                            </div>
-                                            <span className="text-xs font-mono text-slate-400">Nov 2025 - Mar 2026</span>
-                                        </div>
-                                    </div>
-                                </section>
-
-                                {/* Section 4: Keterampilan / Skills */}
-                                <section className="space-y-4">
-                                    <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
-                                        <Wrench className="w-4 h-4 text-indigo-400" />
-                                        <span>Keterampilan & Engineering Matrix</span>
-                                    </h2>
-
-                                    <div className="space-y-3 text-xs sm:text-sm">
-                                        <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
-                                            <span className="md:col-span-4 font-bold text-white">Engineering Software:</span>
-                                            <span className="md:col-span-8 text-slate-300">
-                                                SolidWorks, Fusion 360, AutoCAD, ANSYS Mechanical, Abaqus
-                                            </span>
-                                        </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
-                                            <span className="md:col-span-4 font-bold text-white">Technical Specialization:</span>
-                                            <span className="md:col-span-8 text-slate-300">
-                                                Piping Engineering (ASME B31.3), P&ID Development, Finite Element Analysis (FEA), Reverse Engineering, Material Selection, Heat Transfer Analysis
-                                            </span>
-                                        </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
-                                            <span className="md:col-span-4 font-bold text-white">Soft Skills:</span>
-                                            <span className="md:col-span-8 text-slate-300">
-                                                Team Leadership, Team Coordination, Problem Solving, Critical Thinking, Task & Project Management, Technical Communication
-                                            </span>
-                                        </div>
-                                    </div>
-                                </section>
+                        {/* Modal Body: Switch between PDF embed and Interactive View */}
+                        {cvTab === 'pdf' ? (
+                            <div className="flex-1 p-2 sm:p-4 bg-[#07090E] flex flex-col h-[78vh] overflow-hidden">
+                                <iframe
+                                    src="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1"
+                                    title="CV Achmad Daffa Ihtifazuddin PDF Preview"
+                                    className="w-full h-full rounded-2xl border border-slate-800 bg-[#090D17]"
+                                />
                             </div>
-                        </div>
+                        ) : (
+                            <div className="overflow-y-auto p-6 sm:p-8 space-y-8 bg-[#090D17] text-slate-200">
+                                <div id="printable-cv" className="space-y-8 max-w-4xl mx-auto">
+                                    {/* CV Header */}
+                                    <header className="border-b border-slate-800 pb-6 space-y-4">
+                                        <div className="space-y-1">
+                                            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight uppercase">
+                                                ACHMAD DAFFA IHTIFAZUDDIN
+                                            </h1>
+                                            <div className="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs font-mono text-slate-300">
+                                                <span>089649691208</span>
+                                                <span className="text-slate-600">•</span>
+                                                <span>achmaddaffaihtifazuddin@gmail.com</span>
+                                                <span className="text-slate-600">•</span>
+                                                <span>www.linkedin.com/in/achmaddaffaihtifazuddin</span>
+                                            </div>
+                                            <p className="text-xs font-mono text-slate-400">
+                                                Karanganyar, Jawa Tengah, Indonesia
+                                            </p>
+                                        </div>
+
+                                        {/* Summary Paragraph */}
+                                        <p className="text-xs sm:text-sm leading-relaxed text-slate-300 text-justify pt-1">
+                                            Mahasiswa Teknik Mesin Universitas Gadjah Mada semester 5 dengan peminatan Piping Engineering. Memiliki kemampuan membaca dan membuat Piping and Instrumentation Diagram (P&ID) serta pengalaman menggunakan SolidWorks, AutoCAD, Fusion 360, ANSYS, dan Abaqus untuk desain mekanik, desain manufaktur, dan analisis elemen hingga (FEA). Memiliki ketertarikan pada bidang mechanical design, manufacturing, piping, dan engineering analysis. Termotivasi untuk mengembangkan kompetensi teknis dan berkontribusi melalui program magang di bidang engineering.
+                                        </p>
+                                    </header>
+
+                                    {/* Section 1: Experiences / Selected Engineering Projects */}
+                                    <section className="space-y-4">
+                                        <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
+                                            <Briefcase className="w-4 h-4 text-indigo-400" />
+                                            <span>Experiences Selected Engineering Projects</span>
+                                        </h2>
+
+                                        <div className="space-y-4 text-xs sm:text-sm">
+                                            <div className="space-y-1">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Monitoring Cahaya dan Input Analog Berbasis Arduino UNO R3 - <span className="font-normal text-slate-400">Universitas Gadjah Mada</span></h3>
+                                                    <span className="text-xs font-mono text-indigo-400/90">Aug 2026 - Sep 2026</span>
+                                                </div>
+                                                <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
+                                                    <li>Mengembangkan sistem monitoring berbasis Arduino UNO R3 untuk mengukur intensitas cahaya dan variasi input analog menggunakan LDR dan potentiometer, dengan visualisasi data secara real-time menggunakan Python.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Mechanical Design and Development of a 3-DOF Articulated Robot Arm - <span className="font-normal text-slate-400">Universitas Gadjah Mada</span></h3>
+                                                    <span className="text-xs font-mono text-indigo-400/90">Apr 2026 - Jun 2026</span>
+                                                </div>
+                                                <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
+                                                    <li>Merancang robot arm articulated 3-DOF menggunakan SOLIDWORKS dengan mengintegrasikan berbagai komponen mekanik untuk mendukung pergerakan yang efisien dan kestabilan struktur.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Design of a Portable Bamboo Slat Splitting Machine with Roller Feeding System and Diesel Power Drive - <span className="font-normal text-slate-400">Universitas Gadjah Mada</span></h3>
+                                                    <span className="text-xs font-mono text-indigo-400/90">Oct 2025 - Nov 2025</span>
+                                                </div>
+                                                <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
+                                                    <li>Merancang mesin pembelah bilah bambu portabel bertenaga diesel menggunakan SOLIDWORKS, termasuk sistem roller feeding dan transmisi mekanik.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Design of a Shell and Tube Heat Exchanger - <span className="font-normal text-slate-400">Universitas Gadjah Mada</span></h3>
+                                                    <span className="text-xs font-mono text-indigo-400/90">Apr 2025 - Jun 2025</span>
+                                                </div>
+                                                <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
+                                                    <li>Merancang shell-and-tube heat exchanger dengan fokus pada performa termal, efisiensi perpindahan panas, dan desain mekanik.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Stress Analysis of a Mobile Crane Hook Using FEA - <span className="font-normal text-slate-400">Universitas Gadjah Mada</span></h3>
+                                                    <span className="text-xs font-mono text-indigo-400/90">May 2025 - Jun 2025</span>
+                                                </div>
+                                                <ul className="list-disc list-inside text-slate-300 text-xs sm:text-sm pl-2 space-y-0.5">
+                                                    <li>Mengoptimalkan desain crane hook menggunakan SOLIDWORKS FEA dan topology optimization untuk mengurangi bobot dengan tetap mempertahankan integritas struktur dan kapasitas beban.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    {/* Section 2: Pendidikan */}
+                                    <section className="space-y-3">
+                                        <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
+                                            <GraduationCap className="w-4 h-4 text-indigo-400" />
+                                            <span>Pendidikan</span>
+                                        </h2>
+
+                                        <div className="space-y-1 text-xs sm:text-sm">
+                                            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                <h3>Universitas Gadjah Mada - <span className="font-normal text-slate-400">Yogyakarta, Indonesia</span></h3>
+                                                <span className="text-xs font-mono text-indigo-400">Aug 2024</span>
+                                            </div>
+                                            <p className="text-xs sm:text-sm text-slate-300 font-semibold">
+                                                Bachelor Degree Mechanical Engineering Technology, <strong className="text-indigo-300">3.32/4.00</strong>
+                                            </p>
+                                            <p className="text-xs text-slate-400">
+                                                • Concentration: Piping Engineering
+                                            </p>
+                                        </div>
+                                    </section>
+
+                                    {/* Section 3: Pengalaman Organisasi & Kepanitiaan */}
+                                    <section className="space-y-4">
+                                        <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
+                                            <Users className="w-4 h-4 text-indigo-400" />
+                                            <span>Pengalaman Organisasi dan Kepanitiaan</span>
+                                        </h2>
+
+                                        <div className="space-y-3 text-xs sm:text-sm divide-y divide-slate-800/40">
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Jama'ah Shalahuddin - <span className="font-normal text-slate-400">Yogyakarta, Indonesia</span></h3>
+                                                    <span className="text-xs font-mono text-indigo-400">Jul 2025 - Feb 2026</span>
+                                                </div>
+                                                <p className="text-xs text-indigo-300/90 font-medium">Head of Cooperation and Upgrading Division</p>
+                                                <ul className="list-disc list-inside text-slate-300 text-xs pl-2 space-y-0.5">
+                                                    <li>Memimpin kemitraan strategis dan program pengembangan anggota untuk mendukung program kewirausahaan.</li>
+                                                    <li>Mengoordinasikan kolaborasi lintas divisi untuk memperkuat pengembangan organisasi.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Institutional Benchmarking Visit - <span className="font-normal text-slate-400">Surabaya, Malang, Indonesia</span></h3>
+                                                    <span className="text-xs font-mono text-slate-400">Jun 2025</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">Representative of the Sharia Entrepreneurship Department</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2 space-y-0.5">
+                                                    <li>Mewakili organisasi dalam kunjungan benchmarking ke Universitas Airlangga dan Universitas Brawijaya.</li>
+                                                    <li>Memfasilitasi pertukaran pengetahuan dan memperkuat kolaborasi antarkampus.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>RDK (Ramadhan Di Kampus) UGM</h3>
+                                                    <span className="text-xs font-mono text-slate-400">Nov 2025 - Mar 2026</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">VIP Services Staff</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2">
+                                                    <li>Mengoordinasikan pelayanan dan konsumsi bagi pembicara undangan serta tamu khusus.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>SAJADHA Qurban Volunteer Program - <span className="font-normal text-slate-400">Yogyakarta, Indonesia</span></h3>
+                                                    <span className="text-xs font-mono text-slate-400">Apr 2025 - Jun 2025</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">Logistics & Equipment Staff</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2">
+                                                    <li>Mengoordinasikan persiapan logistik dan peralatan untuk mendukung kegiatan pengabdian masyarakat secara efektif.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Mechanical Fair UGM 2025</h3>
+                                                    <span className="text-xs font-mono text-slate-400">Feb 2025 - May 2025</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">Finance & Treasury Staff</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2">
+                                                    <li>Mengelola pencatatan keuangan, memantau anggaran, dan memproses transaksi untuk memastikan operasional keuangan yang transparan.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>RBM (Ramadhan Bersama Mardhliyah) - <span className="font-normal text-slate-400">Yogyakarta, Indonesia</span></h3>
+                                                    <span className="text-xs font-mono text-slate-400">Jan 2025 - Apr 2025</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">Logistics and Security Division Staff</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2">
+                                                    <li>Mengelola inventaris, distribusi peralatan, dan penataan lokasi serta mendukung pengaturan peserta dan keamanan acara.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Event Volunteer – BerbagiRasa 2025 BEM KM UGM - <span className="font-normal text-slate-400">Yogyakarta, Indonesia</span></h3>
+                                                    <span className="text-xs font-mono text-slate-400">Aug 2025 - Oct 2025</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">Subkoordinator Perlengkapan</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2">
+                                                    <li>Mendukung operasional acara, koordinasi peserta, dan kegiatan mental health awareness.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Barokah Sembada Pangan</h3>
+                                                    <span className="text-xs font-mono text-slate-400">- Sekarang</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">Store Manager (Family-Owned Grocery Store)</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2 space-y-0.5">
+                                                    <li>Mengelola operasional harian toko, inventaris, penetapan harga, dan pelayanan pelanggan.</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="space-y-1 pt-2">
+                                                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between font-bold text-white">
+                                                    <h3>Junior High School Alumni Association</h3>
+                                                    <span className="text-xs font-mono text-slate-400">Jul 2026</span>
+                                                </div>
+                                                <p className="text-xs text-slate-300 font-medium">Guest Speaker for the Launching Event</p>
+                                                <ul className="list-disc list-inside text-slate-400 text-xs pl-2">
+                                                    <li>Menyampaikan pengalaman pendidikan dan wawasan motivasional untuk menginspirasi siswa sekolah menengah pertama.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    {/* Section 4: Keterampilan / Skills */}
+                                    <section className="space-y-3">
+                                        <h2 className="text-sm sm:text-base font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center space-x-2">
+                                            <Wrench className="w-4 h-4 text-indigo-400" />
+                                            <span>Keterampilan</span>
+                                        </h2>
+
+                                        <div className="space-y-2 text-xs sm:text-sm">
+                                            <div>
+                                                <strong className="text-white">Hardskill (Teknis): </strong>
+                                                <span className="text-slate-300">
+                                                    Design & CAD (SolidWorks, Fusion 360, AutoCAD, AutoPlant3D), Analysis & Simulation (ANSYS, Abaqus), Reverse Engineering, Material Selection, Heat Transfer Analysis
+                                                </span>
+                                            </div>
+
+                                            <div>
+                                                <strong className="text-white">Soft Skills (Nonteknis): </strong>
+                                                <span className="text-slate-300">
+                                                    Team Leadership, Team Coordination, Problem Solving, Critical thinking, Task & Project Management, Communication
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Modal Action Footer */}
                         <div className="p-4 sm:p-5 border-t border-slate-800 bg-[#0D121F] flex items-center justify-between">
-                            <span className="text-xs font-mono text-slate-400">
-                                Format A4 Otomatis untuk PDF
+                            <span className="text-xs font-mono text-slate-400 hidden sm:inline">
+                                Format Resmi Dokumen CV • Achmad Daffa Ihtifazuddin
                             </span>
 
-                            <div className="flex items-center space-x-3">
-                                <button
-                                    onClick={handlePrintCV}
+                            <div className="flex items-center space-x-3 ml-auto sm:ml-0">
+                                <a
+                                    href="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf"
+                                    download="CV-Achmad-Daffa-Ihtifazuddin.pdf"
                                     className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/25 flex items-center space-x-2"
                                 >
-                                    <Printer className="w-4 h-4" />
-                                    <span>Download / Cetak PDF</span>
-                                </button>
+                                    <Download className="w-4 h-4" />
+                                    <span>Download PDF CV</span>
+                                </a>
                                 <button
                                     onClick={() => setIsCvModalOpen(false)}
                                     className="px-4 py-2.5 rounded-xl bg-[#131B2E] text-slate-300 hover:text-white border border-slate-700 text-xs font-semibold"
