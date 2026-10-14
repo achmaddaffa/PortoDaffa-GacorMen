@@ -200,9 +200,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             <p className="text-lg sm:text-xl font-medium text-indigo-400 tracking-wide">
                                 {profile?.headline || 'Mechanical Engineering Student | Piping Engineering Enthusiast'}
                             </p>
-                            <p className="text-sm font-mono text-slate-400">
-                                📍 {profile?.location || 'Karanganyar, Jawa Tengah, Indonesia'}
-                            </p>
                         </div>
 
                         <p className="text-base text-slate-300 leading-relaxed max-w-2xl">
