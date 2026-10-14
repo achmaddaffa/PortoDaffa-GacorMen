@@ -107,7 +107,10 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                         <a href="#skills" className="hover:text-cyan-400 transition">Technical Skills</a>
                         <a href="#projects" className="hover:text-cyan-400 transition">Projects & CAD</a>
                         <a href="#education" className="hover:text-cyan-400 transition">Education</a>
-                        <a href="#goals" className="hover:text-cyan-400 transition">Goals</a>
+                        <Link href="/cv" className="text-cyan-400 font-bold hover:text-cyan-300 transition flex items-center space-x-1 bg-cyan-950/40 px-3 py-1 rounded-lg border border-cyan-500/30">
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>Curriculum Vitae</span>
+                        </Link>
                         <a href="#contact" className="hover:text-cyan-400 transition">Contact</a>
                     </nav>
 
@@ -154,7 +157,10 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             <a href="#skills" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Technical Skills</a>
                             <a href="#projects" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Projects & CAD</a>
                             <a href="#education" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Education</a>
-                            <a href="#goals" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Goals</a>
+                            <Link href="/cv" onClick={() => setMobileMenuOpen(false)} className="text-cyan-400 font-bold flex items-center space-x-1.5">
+                                <FileText className="w-4 h-4" />
+                                <span>Curriculum Vitae</span>
+                            </Link>
                             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-cyan-400">Contact</a>
                         </div>
                         <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
@@ -190,19 +196,27 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                                 {profile?.headline || 'Mechanical Engineering Student | Piping Engineering Enthusiast'}
                             </p>
                             <p className="text-sm font-mono text-slate-400">
-                                📍 {profile?.study_program || 'D4 Mechanical Engineering Technology'}, {profile?.university || 'Universitas Gadjah Mada (UGM)'} • {profile?.semester || 'Semester 5'}
+                                📍 {profile?.location || 'Karanganyar, Jawa Tengah, Indonesia'}
                             </p>
                         </div>
 
                         <p className="text-base text-slate-300 leading-relaxed max-w-2xl">
-                            {profile?.bio_summary || 'I am a Mechanical Engineering Technology student at the School of Vocational Studies, Universitas Gadjah Mada (UGM), with a strong interest in innovation, technology, and problem-solving. I enjoy designing and optimizing mechanical systems, and I have built solid teamwork and communication skills through collaborative technical projects.'}
+                            {profile?.bio_summary || 'Mahasiswa Teknik Mesin Universitas Gadjah Mada semester 5 dengan peminatan Piping Engineering. Mampu membaca dan membuat P&ID, serta berpengalaman menggunakan SolidWorks, AutoCAD, Fusion 360, ANSYS, dan Abaqus untuk desain mekanik, desain manufaktur, dan Finite Element Analysis (FEA). Siap berkontribusi dan terus berkembang melalui program magang.'}
                         </p>
 
                         {/* CTA Buttons */}
                         <div className="flex flex-wrap items-center gap-4 pt-3">
+                            <Link
+                                href="/cv"
+                                className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm tracking-wide transition shadow-xl shadow-cyan-500/25 flex items-center space-x-2"
+                            >
+                                <FileText className="w-4 h-4" />
+                                <span>Buka Halaman CV</span>
+                            </Link>
+
                             <a
                                 href="#projects"
-                                className="px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm tracking-wide transition shadow-xl shadow-cyan-500/25 flex items-center space-x-2"
+                                className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm transition flex items-center space-x-2"
                             >
                                 <span>Lihat Proyek & CAD</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -210,10 +224,10 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
                             <a
                                 href="#contact"
-                                className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm transition flex items-center space-x-2"
+                                className="px-5 py-3.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 text-slate-300 border border-slate-800 font-medium text-sm transition flex items-center space-x-2"
                             >
                                 <Mail className="w-4 h-4 text-cyan-400" />
-                                <span>Hubungi Rekrutmen</span>
+                                <span>Kontak</span>
                             </a>
 
                             {profile?.drive_portfolio_url && (

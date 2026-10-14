@@ -27,6 +27,21 @@ class PortfolioController extends Controller
         ]);
     }
 
+    public function cv()
+    {
+        $profile = Profile::first();
+        $projects = Project::orderBy('sort_order', 'asc')->get();
+        $skills = Skill::orderBy('sort_order', 'asc')->get();
+        $experiences = Experience::orderBy('sort_order', 'asc')->get();
+
+        return Inertia::render('Portfolio/CV', [
+            'profile' => $profile,
+            'projects' => $projects,
+            'skills' => $skills,
+            'experiences' => $experiences,
+        ]);
+    }
+
     public function project(Project $project)
     {
         return Inertia::render('Portfolio/ProjectDetail', [
