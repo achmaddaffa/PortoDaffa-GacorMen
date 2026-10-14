@@ -1,0 +1,15 @@
+node_modules
+vendor
+.git
+.github
+.env
+.env.*
+!.env.example
+database/*.sqlite
+database/*.sqlite-journal
+storage/*.key
+storage/logs/*.log
+tests
+docker-compose*.yml
+.DS_Store
+Thumbs.db
