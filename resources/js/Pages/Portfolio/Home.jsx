@@ -88,15 +88,12 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     {/* Brand */}
                     <a href="#" className="flex items-center space-x-3 group">
-                        <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
-                            <Flame className="w-6 h-6 text-slate-950" />
+                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+                            <Flame className="w-5 h-5 text-slate-950" />
                         </div>
                         <div>
-                            <span className="font-extrabold text-base tracking-tight text-white block group-hover:text-cyan-400 transition">
-                                Achmad Daffa
-                            </span>
-                            <span className="text-[11px] text-cyan-400 font-mono tracking-wider uppercase block">
-                                UGM Mechanical Eng.
+                            <span className="font-extrabold text-lg tracking-tight text-white block group-hover:text-cyan-400 transition">
+                                Portfolio
                             </span>
                         </div>
                     </a>
