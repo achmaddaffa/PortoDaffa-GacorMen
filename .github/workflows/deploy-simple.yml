@@ -1,0 +1,49 @@
+name: Deploy to Rumahweb (FTP Simple)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        extensions: mbstring, xml, ctype, iconv, mysql, zip
+
+    - name: Install Composer Dependencies
+      run: composer install --no-dev --optimize-autoloader --no-scripts
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install NPM Dependencies & Build
+      run: |
+        npm ci
+        npm run build
+
+    - name: Upload to Rumahweb
+      uses: sebastianpeter/ftp-upload-action@v1
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        user: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASS }}
+        src: .
+        dst: ${{ secrets.FTP_ROOT }}
+        exclude: ".git,.github,.idea,.vscode,node_modules,vendor,storage/*,bootstrap/cache/*"
+
+    - name: Run migrations via SSH (optional)
+      if: github.event_name == 'push'
+      run: |
+        # Uncomment jika punya SSH access ke Rumahweb
+        # ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.FTP_HOST }} "cd ${{ secrets.FTP_ROOT }} && php artisan migrate --force && php artisan optimize"
