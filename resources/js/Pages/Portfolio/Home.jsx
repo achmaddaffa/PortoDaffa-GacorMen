@@ -1229,7 +1229,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
             <footer className="border-t border-slate-800/80 bg-[#07090E] py-12 px-6">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500">
                     <div className="flex items-center space-x-3">
-                        <p>© {new Date().getFullYear()} Achmad Daffa Ihtifazuddin. D4 Mechanical Engineering Technology, Universitas Gadjah Mada.</p>
+                        <p>© {new Date().getFullYear()} Achmad Daffa Ihtifazuddin.</p>
                     </div>
 
                     <div className="flex items-center space-x-6">
