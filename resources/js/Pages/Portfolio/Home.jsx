@@ -631,11 +631,8 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             Get In Touch
                         </span>
                         <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-                            Hubungi Achmad Daffa
+                            Kontak
                         </h2>
-                        <p className="text-sm text-slate-400">
-                            Terbuka untuk kesempatan magang (internship) di sektor Oil & Gas, kolaborasi rekayasa perpipaan, dan proyek CAD/FEA simulation.
-                        </p>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
