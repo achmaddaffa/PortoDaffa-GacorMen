@@ -75,7 +75,7 @@ export default function Login({ status, canResetPassword }) {
                                 required
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
-                                placeholder="admin@daffa.eng"
+                                placeholder="nama@email.com"
                                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition"
                             />
                         </div>

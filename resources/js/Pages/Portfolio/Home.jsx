@@ -1239,14 +1239,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             Lihat CV
                         </button>
                         <a href="#contact" className="hover:text-indigo-400 transition">Contact</a>
-                        {auth?.user && (
-                            <>
-                                <span className="text-slate-700">|</span>
-                                <Link href="/admin/dashboard" className="text-indigo-400 hover:underline font-mono">
-                                    Admin Dashboard
-                                </Link>
-                            </>
-                        )}
                     </div>
                 </div>
             </footer>
