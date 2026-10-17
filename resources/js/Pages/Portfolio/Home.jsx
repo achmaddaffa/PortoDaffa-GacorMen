@@ -112,19 +112,12 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
                     {/* Action buttons */}
                     <div className="hidden lg:flex items-center space-x-4">
-                        {auth?.user ? (
+                        {auth?.user && (
                             <Link
                                 href="/admin/dashboard"
                                 className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition"
                             >
                                 Admin Dashboard
-                            </Link>
-                        ) : (
-                            <Link
-                                href="/login"
-                                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-slate-800 transition"
-                            >
-                                Admin Login
                             </Link>
                         )}
 
@@ -155,11 +148,9 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             <a href="#education" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Education</a>
                             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Contact</a>
                         </div>
-                        <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
-                            {auth?.user ? (
+                        <div className={`pt-4 border-t border-slate-800 flex items-center ${auth?.user ? 'justify-between' : 'justify-end'}`}>
+                            {auth?.user && (
                                 <Link href="/admin/dashboard" className="text-xs font-bold text-indigo-400">Admin Dashboard</Link>
-                            ) : (
-                                <Link href="/login" className="text-xs text-slate-400">Admin Login</Link>
                             )}
                             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-xs font-bold">
                                 Contact
@@ -805,10 +796,10 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
             {/* CURRICULUM VITAE PREVIEW & PDF DOWNLOAD MODAL */}
             {isCvModalOpen && (
-                <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto">
-                    <div className="relative w-full max-w-5xl bg-[#090D17] border border-slate-700 rounded-3xl shadow-2xl max-h-[94vh] flex flex-col overflow-hidden my-auto">
+                <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6">
+                    <div className="relative w-full max-w-6xl xl:max-w-7xl h-[92vh] max-h-[95vh] bg-[#090D17] border border-slate-700/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden my-auto">
                         {/* Top Sticky Header */}
-                        <div className="px-5 py-3.5 border-b border-slate-800 bg-[#0D121F] flex flex-wrap items-center justify-between gap-3 sticky top-0 z-10">
+                        <div className="px-5 py-3.5 border-b border-slate-800 bg-[#0D121F] flex flex-wrap items-center justify-between gap-3 sticky top-0 z-10 shrink-0">
                             <div>
                                 <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-400 font-semibold block">
                                     Curriculum Vitae Preview
@@ -887,16 +878,16 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
                         {/* Modal Body: Switch between PDF embed and Interactive View */}
                         {cvTab === 'pdf' ? (
-                            <div className="flex-1 p-2 sm:p-4 bg-[#07090E] flex flex-col h-[78vh] overflow-hidden">
+                            <div className="flex-1 min-h-0 p-2 sm:p-3 bg-[#07090E] flex flex-col overflow-hidden">
                                 <iframe
-                                    src="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1"
+                                    src="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1&view=FitH"
                                     title="CV Achmad Daffa Ihtifazuddin PDF Preview"
-                                    className="w-full h-full rounded-2xl border border-slate-800 bg-[#090D17]"
+                                    className="w-full h-full flex-1 rounded-2xl border border-slate-800 bg-[#090D17]"
                                 />
                             </div>
                         ) : (
-                            <div className="overflow-y-auto p-6 sm:p-8 space-y-8 bg-[#090D17] text-slate-200">
-                                <div id="printable-cv" className="space-y-8 max-w-4xl mx-auto">
+                            <div className="flex-1 min-h-0 overflow-y-auto p-6 sm:p-8 space-y-8 bg-[#090D17] text-slate-200">
+                                <div id="printable-cv" className="space-y-8 max-w-5xl mx-auto">
                                     {/* CV Header */}
                                     <header className="border-b border-slate-800 pb-6 space-y-4">
                                         <div className="space-y-1">
@@ -1141,7 +1132,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                         )}
 
                         {/* Modal Action Footer */}
-                        <div className="p-4 sm:p-5 border-t border-slate-800 bg-[#0D121F] flex items-center justify-between">
+                        <div className="p-4 sm:p-5 border-t border-slate-800 bg-[#0D121F] flex items-center justify-between shrink-0">
                             <span className="text-xs font-mono text-slate-400 hidden sm:inline">
                                 Format Resmi Dokumen CV • Achmad Daffa Ihtifazuddin
                             </span>
@@ -1248,10 +1239,14 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             Lihat CV
                         </button>
                         <a href="#contact" className="hover:text-indigo-400 transition">Contact</a>
-                        <span className="text-slate-700">|</span>
-                        <Link href="/login" className="text-indigo-400 hover:underline font-mono">
-                            Admin Portal
-                        </Link>
+                        {auth?.user && (
+                            <>
+                                <span className="text-slate-700">|</span>
+                                <Link href="/admin/dashboard" className="text-indigo-400 hover:underline font-mono">
+                                    Admin Dashboard
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </footer>

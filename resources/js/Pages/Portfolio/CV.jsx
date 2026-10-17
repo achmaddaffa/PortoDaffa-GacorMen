@@ -92,9 +92,9 @@ export default function CV({ profile }) {
 
             {/* View Mode: PDF iframe or Interactive Document */}
             {viewMode === 'pdf' ? (
-                <div className="max-w-5xl mx-auto h-[84vh] bg-[#0D121F] border border-slate-800 rounded-3xl overflow-hidden shadow-2xl p-2 sm:p-4">
+                <div className="max-w-6xl xl:max-w-7xl mx-auto h-[88vh] bg-[#0D121F] border border-slate-800 rounded-3xl overflow-hidden shadow-2xl p-2 sm:p-3">
                     <iframe
-                        src="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1"
+                        src="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1&view=FitH"
                         title="CV Achmad Daffa Ihtifazuddin"
                         className="w-full h-full rounded-2xl border border-slate-800 bg-[#07090E]"
                     />
