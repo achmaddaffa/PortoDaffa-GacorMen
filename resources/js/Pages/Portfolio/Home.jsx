@@ -266,12 +266,11 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             </div>
 
                             {/* Bottom Blueprint Footer */}
-                            <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                            <div className="pt-2 flex items-center text-[11px] font-mono text-slate-400">
                                 <span className="flex items-center space-x-1.5">
                                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                                     <span>ASME & API Standard Driven</span>
                                 </span>
-                                <span className="text-indigo-400 font-bold">{profile?.semester || 'Semester 5'} Active</span>
                             </div>
                         </div>
                     </div>
