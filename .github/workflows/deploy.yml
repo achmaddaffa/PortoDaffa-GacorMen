@@ -1,0 +1,56 @@
+name: Deploy to Rumahweb
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-achmaddaffa
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, xml, ctype, iconv, mysql, zip, pdo_mysql
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Build
+        run: |
+          composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
+          npm ci --no-audit
+          npm run build
+
+      - name: Package
+        run: |
+          zip -qr release.zip . \
+            -x '.git/*' -x '.github/*' -x 'node_modules/*' -x 'tests/*' \
+            -x '.env' -x '.env.*' -x '.deploy-credentials' -x 'storage/logs/*' \
+            -x 'bootstrap/cache/*.php' -x 'public/deploy-unzip.php' -x '*.zip'
+          echo "${{ secrets.DEPLOY_SECRET }}" | tr -d '\n' | sha256sum | cut -d' ' -f1 > .deploy_secret
+          ls -lh release.zip
+
+      - name: Upload via FTP
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          up() { curl -sS --ftp-pasv --ftp-create-dirs --connect-timeout 30 --max-time 600 --retry 3 --retry-delay 5 -T "$1" "ftp://$FTP_SERVER/$2" --user "$FTP_USERNAME:$FTP_PASSWORD"; }
+          up release.zip release.zip
+          up .deploy_secret .deploy_secret
+          up public/deploy-unzip.php public_html/deploy-unzip.php
+
+      - name: Extract on server
+        run: |
+          curl -sS --max-time 600 "https://${{ secrets.DOMAIN }}/deploy-unzip.php?secret=${{ secrets.DEPLOY_SECRET }}"
