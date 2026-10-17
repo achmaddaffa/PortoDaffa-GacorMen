@@ -846,7 +846,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             <div className="flex items-center space-x-2">
                                 {/* Download PDF CV Button */}
                                 <a
-                                    href="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf"
+                                    href="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf"
                                     download="CV-Achmad-Daffa-Ihtifazuddin.pdf"
                                     className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition flex items-center space-x-1.5 shadow-lg shadow-indigo-600/25"
                                 >
@@ -865,7 +865,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
                                 {/* Open in New Tab */}
                                 <a
-                                    href="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf"
+                                    href="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="p-2 rounded-xl bg-[#131B2E] text-slate-300 hover:text-white border border-slate-700 transition"
@@ -889,7 +889,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                         {cvTab === 'pdf' ? (
                             <div className="flex-1 p-2 sm:p-4 bg-[#07090E] flex flex-col h-[78vh] overflow-hidden">
                                 <iframe
-                                    src="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1"
+                                    src="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1"
                                     title="CV Achmad Daffa Ihtifazuddin PDF Preview"
                                     className="w-full h-full rounded-2xl border border-slate-800 bg-[#090D17]"
                                 />
@@ -1148,7 +1148,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
                             <div className="flex items-center space-x-3 ml-auto sm:ml-0">
                                 <a
-                                    href="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf"
+                                    href="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf"
                                     download="CV-Achmad-Daffa-Ihtifazuddin.pdf"
                                     className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/25 flex items-center space-x-2"
                                 >

@@ -72,7 +72,7 @@ export default function CV({ profile }) {
                 <div className="flex items-center space-x-3">
                     {/* Direct Download Button for original PDF */}
                     <a
-                        href="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf"
+                        href="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf"
                         download="CV-Achmad-Daffa-Ihtifazuddin.pdf"
                         className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/25"
                     >
@@ -94,7 +94,7 @@ export default function CV({ profile }) {
             {viewMode === 'pdf' ? (
                 <div className="max-w-5xl mx-auto h-[84vh] bg-[#0D121F] border border-slate-800 rounded-3xl overflow-hidden shadow-2xl p-2 sm:p-4">
                     <iframe
-                        src="/cv/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1"
+                        src="/dokumen/CV-Achmad-Daffa-Ihtifazuddin.pdf#toolbar=1"
                         title="CV Achmad Daffa Ihtifazuddin"
                         className="w-full h-full rounded-2xl border border-slate-800 bg-[#07090E]"
                     />
