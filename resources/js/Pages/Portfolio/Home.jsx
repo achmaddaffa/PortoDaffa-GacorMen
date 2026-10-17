@@ -112,15 +112,6 @@ export default function Home({ profile, projects = [], skills = [], experiences 
 
                     {/* Action buttons */}
                     <div className="hidden lg:flex items-center space-x-4">
-                        {auth?.user && (
-                            <Link
-                                href="/admin/dashboard"
-                                className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition"
-                            >
-                                Admin Dashboard
-                            </Link>
-                        )}
-
                         <a
                             href="#contact"
                             className="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-indigo-600 hover:bg-indigo-500 text-white transition shadow-lg shadow-indigo-600/25"
@@ -148,10 +139,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             <a href="#education" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Education</a>
                             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-indigo-400">Contact</a>
                         </div>
-                        <div className={`pt-4 border-t border-slate-800 flex items-center ${auth?.user ? 'justify-between' : 'justify-end'}`}>
-                            {auth?.user && (
-                                <Link href="/admin/dashboard" className="text-xs font-bold text-indigo-400">Admin Dashboard</Link>
-                            )}
+                        <div className="pt-4 border-t border-slate-800 flex items-center justify-end">
                             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-xs font-bold">
                                 Contact
                             </a>
