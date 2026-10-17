@@ -6,8 +6,8 @@ export default function Login({ status, canResetPassword }) {
     const [showPassword, setShowPassword] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: 'admin@daffa.eng',
-        password: 'password',
+        email: '',
+        password: '',
         remember: true,
     });
 
@@ -16,14 +16,6 @@ export default function Login({ status, canResetPassword }) {
 
         post(route('login'), {
             onFinish: () => reset('password'),
-        });
-    };
-
-    const handleAutoFill = () => {
-        setData({
-            email: 'admin@daffa.eng',
-            password: 'password',
-            remember: true,
         });
     };
 
@@ -70,27 +62,6 @@ export default function Login({ status, canResetPassword }) {
                         {status}
                     </div>
                 )}
-
-                {/* Quick Credentials Info Box */}
-                <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/90 text-xs space-y-2">
-                    <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-mono text-slate-400 uppercase font-semibold flex items-center space-x-1.5">
-                            <KeyRound className="w-3.5 h-3.5 text-cyan-400" />
-                            <span>Kredensial Default:</span>
-                        </span>
-                        <button
-                            type="button"
-                            onClick={handleAutoFill}
-                            className="text-[11px] font-semibold text-cyan-400 hover:text-cyan-300 underline"
-                        >
-                            Isi Otomatis
-                        </button>
-                    </div>
-                    <div className="font-mono text-[11px] text-slate-300 space-y-0.5">
-                        <div>Email: <span className="text-cyan-300">admin@daffa.eng</span></div>
-                        <div>Password: <span className="text-cyan-300">password</span></div>
-                    </div>
-                </div>
 
                 {/* Form */}
                 <form onSubmit={submit} className="space-y-4">
