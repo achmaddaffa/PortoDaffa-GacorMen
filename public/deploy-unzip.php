@@ -69,6 +69,7 @@ for ($i = 0; $i < $zip->numFiles; $i++) {
     }
 }
 $zip->close();
+@unlink($zipFile);
 
 // Cache config/route lama harus dibuang supaya .env baru terbaca.
 $cleared = 0;
