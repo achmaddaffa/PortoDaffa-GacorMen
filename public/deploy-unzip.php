@@ -49,7 +49,8 @@ for ($i = 0; $i < $zip->numFiles; $i++) {
 }
 $total = $zip->numFiles;
 
-// Salin isi public/ (build, dokumen, favicon, index.php) ke docroot. .htaccess tidak disentuh.
+// Salin isi public/ (build, dokumen, favicon, index.php) ke docroot DAN ke $appRoot/public. .htaccess tidak disentuh.
+$targets = array_unique([$publicRoot, $appRoot . '/public']);
 $copied = 0;
 for ($i = 0; $i < $zip->numFiles; $i++) {
     $name = $zip->getNameIndex($i);
@@ -60,23 +61,34 @@ for ($i = 0; $i < $zip->numFiles; $i++) {
     if ($rel === '.htaccess') {
         continue;
     }
-    $target = $publicRoot . '/' . $rel;
-    if (!is_dir(dirname($target))) {
-        mkdir(dirname($target), 0755, true);
-    }
-    if (file_put_contents($target, $zip->getFromIndex($i)) !== false) {
-        $copied++;
+    $content = $zip->getFromIndex($i);
+    foreach ($targets as $base) {
+        $target = $base . '/' . $rel;
+        if (!is_dir(dirname($target))) {
+            mkdir(dirname($target), 0755, true);
+        }
+        if (file_put_contents($target, $content) !== false) {
+            $copied++;
+        }
     }
 }
 $zip->close();
 @unlink($zipFile);
 
-// Cache config/route lama harus dibuang supaya .env baru terbaca.
+// Cache config/route/views lama harus dibuang supaya update terbaca.
 $cleared = 0;
 foreach (glob($appRoot . '/bootstrap/cache/*.php') ?: [] as $f) {
     if (unlink($f)) {
         $cleared++;
     }
+}
+foreach (glob($appRoot . '/storage/framework/views/*.php') ?: [] as $f) {
+    if (unlink($f)) {
+        $cleared++;
+    }
+}
+if (function_exists('opcache_reset')) {
+    @opcache_reset();
 }
 
 echo "app_files=$ok/$total public_files=$copied cache_cleared=$cleared\n";
