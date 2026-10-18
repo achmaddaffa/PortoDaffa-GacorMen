@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProfileSettingController extends Controller
 {
+    private const DISK = 'local';
+
+    private const DIR = 'avatars';
+
     public function edit()
     {
         $profile = Profile::firstOrCreate(['id' => 1]);
@@ -41,11 +46,32 @@ class ProfileSettingController extends Controller
             'drive_portfolio_url' => 'nullable|url|max:255',
             'resume_path' => 'nullable|string|max:255',
             'avatar_url' => 'nullable|string|max:500',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             'hero_badge' => 'nullable|string|max:100',
         ]);
+
+        unset($validated['avatar']);
+
+        if ($request->hasFile('avatar')) {
+            $this->deleteAvatarFile($profile);
+
+            $validated['avatar_path'] = $request->file('avatar')->store(self::DIR, self::DISK);
+        }
+
+        if ($request->boolean('remove_avatar')) {
+            $this->deleteAvatarFile($profile);
+            $validated['avatar_path'] = null;
+        }
 
         $profile->update($validated);
 
         return back()->with('success', 'Profil portfolio berhasil diperbarui!');
+    }
+
+    private function deleteAvatarFile(Profile $profile): void
+    {
+        if (! empty($profile->avatar_path) && Storage::disk(self::DISK)->exists($profile->avatar_path)) {
+            Storage::disk(self::DISK)->delete($profile->avatar_path);
+        }
     }
 }

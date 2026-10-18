@@ -8,6 +8,7 @@ use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PortfolioController extends Controller
@@ -50,6 +51,22 @@ class PortfolioController extends Controller
                 ->where('category', $project->category)
                 ->take(2)
                 ->get(),
+        ]);
+    }
+
+    public function avatar(Request $request, ?string $download = null)
+    {
+        $profile = Profile::first();
+
+        abort_if(empty($profile?->avatar_path) || ! Storage::disk('local')->exists($profile->avatar_path), 404);
+
+        $path = Storage::disk('local')->path($profile->avatar_path);
+        $name = 'foto-' . str()->slug($profile->full_name ?: 'profil') . '.' . pathinfo($path, PATHINFO_EXTENSION);
+
+        return response()->file($path, [
+            'Content-Type' => mime_content_type($path) ?: 'image/jpeg',
+            'Content-Disposition' => ($download === 'download' ? 'attachment' : 'inline') . '; filename="' . $name . '"',
+            'Cache-Control' => 'public, max-age=86400',
         ]);
     }
 

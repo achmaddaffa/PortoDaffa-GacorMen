@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Save, UserCheck, GraduationCap, MapPin, Mail, Phone, Link2, Target, Briefcase } from 'lucide-react';
+import { Save, UserCheck, GraduationCap, MapPin, Mail, Phone, Link2, Target, Briefcase, Upload, Trash2, ImageIcon } from 'lucide-react';
 
 export default function ProfileSetting({ profile }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const fileInput = useRef(null);
+    const [preview, setPreview] = useState(profile?.avatar_src || null);
+    const [removeAvatar, setRemoveAvatar] = useState(false);
+    const [dragging, setDragging] = useState(false);
+
+    const { data, setData, post, processing, errors, progress } = useForm({
         full_name: profile?.full_name || '',
         headline: profile?.headline || '',
         bio_summary: profile?.bio_summary || '',
@@ -22,12 +27,29 @@ export default function ProfileSetting({ profile }) {
         github_url: profile?.github_url || '',
         drive_portfolio_url: profile?.drive_portfolio_url || '',
         hero_badge: profile?.hero_badge || '',
-        avatar_url: profile?.avatar_url || '',
+        avatar: null,
+        remove_avatar: false,
     });
+
+    const pickFile = (file) => {
+        if (!file) return;
+        setData('avatar', file);
+        setRemoveAvatar(false);
+        setData('remove_avatar', false);
+        setPreview(URL.createObjectURL(file));
+    };
+
+    const clearPhoto = () => {
+        setData('avatar', null);
+        setRemoveAvatar(true);
+        setData('remove_avatar', true);
+        setPreview(null);
+        if (fileInput.current) fileInput.current.value = '';
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/admin/profile-setting');
+        post('/admin/profile-setting', { forceFormData: true });
     };
 
     return (
@@ -85,16 +107,77 @@ export default function ProfileSetting({ profile }) {
                                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
                                 />
                             </div>
+                        </div>
 
-                            <div>
-                                <label className="block text-xs font-medium text-slate-300 mb-1.5">URL Foto Profil / Avatar</label>
-                                <input
-                                    type="text"
-                                    value={data.avatar_url}
-                                    onChange={(e) => setData('avatar_url', e.target.value)}
-                                    placeholder="https://..."
-                                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
-                                />
+                        {/* Foto Profil — upload file */}
+                        <div>
+                            <label className="block text-xs font-medium text-slate-300 mb-2">Foto Profil</label>
+                            <div
+                                className={`flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-slate-950 border transition ${dragging ? 'border-cyan-400/70 bg-cyan-500/5' : 'border-slate-700'}`}
+                                onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+                                onDragLeave={() => setDragging(false)}
+                                onDrop={(e) => {
+                                    e.preventDefault();
+                                    setDragging(false);
+                                    pickFile(e.dataTransfer.files?.[0]);
+                                }}
+                            >
+                                <div className="shrink-0 w-28 aspect-[3/4] rounded-xl overflow-hidden bg-slate-900 border border-slate-700 flex items-center justify-center">
+                                    {preview ? (
+                                        <img src={preview} alt="Pratinjau foto profil" className="w-full h-full object-cover object-center" />
+                                    ) : (
+                                        <div className="text-center space-y-1 px-2">
+                                            <ImageIcon className="w-7 h-7 text-slate-600 mx-auto" />
+                                            <span className="block text-[10px] text-slate-600 leading-tight">Belum ada foto</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex-1 space-y-2">
+                                    <input
+                                        ref={fileInput}
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/webp"
+                                        onChange={(e) => pickFile(e.target.files?.[0])}
+                                        className="hidden"
+                                        id="avatar-file"
+                                    />
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => fileInput.current?.click()}
+                                            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-semibold flex items-center gap-2 border border-slate-600 transition"
+                                        >
+                                            <Upload className="w-3.5 h-3.5" />
+                                            <span>{preview ? 'Ganti Foto' : 'Unggah Foto'}</span>
+                                        </button>
+
+                                        {(preview || removeAvatar) && (
+                                            <button
+                                                type="button"
+                                                onClick={clearPhoto}
+                                                className="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center gap-2 border border-rose-500/30 transition"
+                                            >
+                                                <Trash2 className="w-3.5 h-3.5" />
+                                                <span>Hapus</span>
+                                            </button>
+                                        )}
+                                    </div>
+                                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                                        Tarik & lepas foto ke sini, atau klik <span className="text-slate-200 font-medium">Unggah Foto</span>.
+                                    </p>
+                                    <p className="text-[11px] text-slate-500 leading-relaxed">
+                                        JPG, PNG, atau WebP · maks 4 MB · rasio disarankan 3:4 (potret).
+                                        Foto tampil di kartu hero beranda dan bisa diunduh pengunjung.
+                                    </p>
+                                    {data.avatar && (
+                                        <p className="text-[11px] text-cyan-400 font-mono">
+                                            {data.avatar.name} · {(data.avatar.size / 1024 / 1024).toFixed(2)} MB
+                                            {progress ? ` · ${progress.percentage}%` : ''}
+                                        </p>
+                                    )}
+                                    {errors.avatar && <p className="text-xs text-rose-400">{errors.avatar}</p>}
+                                </div>
                             </div>
                         </div>
 

@@ -91,5 +91,20 @@ if (function_exists('opcache_reset')) {
     @opcache_reset();
 }
 
+// Migrasi opsional (?migrate=1): jalankan migrator tanpa butuh SSH/CLI.
+$migrated = 'skipped';
+if (($_GET['migrate'] ?? '') === '1') {
+    try {
+        require $appRoot . '/vendor/autoload.php';
+        $app = require $appRoot . '/bootstrap/app.php';
+        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $migrated = trim(Illuminate\Support\Facades\Artisan::output()) ?: 'ok';
+    } catch (Throwable $e) {
+        $migrated = 'error: ' . $e->getMessage();
+    }
+}
+
 echo "app_files=$ok/$total public_files=$copied cache_cleared=$cleared\n";
+echo "migrate=$migrated\n";
 echo 'php=' . PHP_VERSION . " app_root=$appRoot public_root=$publicRoot\n";

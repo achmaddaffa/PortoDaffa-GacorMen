@@ -215,6 +215,48 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                                 </span>
                             </div>
 
+                            {/* Profile Photo Frame */}
+                            {profile?.avatar_src && (
+                                <div className="relative rounded-2xl overflow-hidden border border-slate-700/80 bg-[#07090E] group/photo">
+                                    <div className="relative aspect-[4/5] sm:aspect-[5/6] overflow-hidden">
+                                        <img
+                                            src={profile.avatar_src}
+                                            alt={`Foto profil ${profile?.full_name || 'Achmad Daffa'}`}
+                                            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover/photo:scale-[1.04]"
+                                            loading="eager"
+                                        />
+                                        {/* Scrim bawah supaya label tetap terbaca di atas foto terang */}
+                                        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#07090E] via-[#07090E]/70 to-transparent pointer-events-none"></div>
+
+                                        {/* Corner ticks - 4 sudut simetris */}
+                                        <span className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-indigo-400/70 rounded-tl"></span>
+                                        <span className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-indigo-400/70 rounded-tr"></span>
+                                        <span className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-indigo-400/70 rounded-bl"></span>
+                                        <span className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-indigo-400/70 rounded-br"></span>
+
+                                        <span className="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-widest text-slate-200 bg-[#07090E]/80 backdrop-blur px-2 py-1 rounded border border-slate-700/70">
+                                            ID · {profile?.semester || 'Semester 5'}
+                                        </span>
+                                    </div>
+
+                                    {/* Footer kartu: tombol unduh di luar area foto */}
+                                    <div className="flex items-center justify-between gap-3 px-3 py-2.5 border-t border-slate-800/80 bg-[#07090E]">
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">
+                                            PROFILE PHOTO
+                                        </span>
+                                        <a
+                                            href={profile.avatar_download_url || profile.avatar_src}
+                                            download
+                                            className="flex items-center gap-1.5 text-[11px] font-semibold text-white bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg border border-indigo-400/40 shadow-lg shadow-indigo-900/40 transition"
+                                            title="Unduh foto profil"
+                                        >
+                                            <Download className="w-3.5 h-3.5" />
+                                            <span>Unduh Foto</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Engineering Schematic Highlight */}
                             <div className="p-4 rounded-2xl bg-[#07090E]/80 border border-slate-800 space-y-3">
                                 <div className="flex items-center justify-between text-xs font-mono text-slate-400">

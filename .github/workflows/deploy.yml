@@ -53,4 +53,4 @@ jobs:
 
       - name: Extract on server
         run: |
-          curl -sS --max-time 600 "https://${{ secrets.DOMAIN }}/deploy-unzip.php?secret=${{ secrets.DEPLOY_SECRET }}"
+          curl -sS --max-time 600 "https://${{ secrets.DOMAIN }}/deploy-unzip.php?secret=${{ secrets.DEPLOY_SECRET }}&migrate=1"
