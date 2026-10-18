@@ -46,6 +46,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
     const [isCvModalOpen, setIsCvModalOpen] = useState(false);
     const [cvTab, setCvTab] = useState('pdf');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [photoBroken, setPhotoBroken] = useState(false);
 
     // Contact Form
     const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({
@@ -216,7 +217,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             </div>
 
                             {/* Profile Photo Frame */}
-                            {profile?.avatar_src && (
+                            {profile?.avatar_src && !photoBroken && (
                                 <div className="relative rounded-2xl overflow-hidden border border-slate-700/80 bg-[#07090E] group/photo">
                                     <div className="relative aspect-[4/5] sm:aspect-[5/6] overflow-hidden">
                                         <img
@@ -224,6 +225,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                                             alt={`Foto profil ${profile?.full_name || 'Achmad Daffa'}`}
                                             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover/photo:scale-[1.04]"
                                             loading="eager"
+                                            onError={() => setPhotoBroken(true)}
                                         />
                                         {/* Scrim bawah supaya label tetap terbaca di atas foto terang */}
                                         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#07090E] via-[#07090E]/70 to-transparent pointer-events-none"></div>
