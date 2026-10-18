@@ -18,11 +18,11 @@ class Profile extends Model
      */
     public function getAvatarSrcAttribute(): ?string
     {
-        if (! empty($this->avatar_path)) {
-            return route('portfolio.avatar', ['v' => substr(md5($this->avatar_path), 0, 8)]);
+        if (empty($this->avatar_path)) {
+            return null;
         }
 
-        return $this->avatar_url ?: null;
+        return route('portfolio.avatar', ['v' => substr(md5($this->avatar_path), 0, 8)]);
     }
 
     public function getAvatarDownloadUrlAttribute(): ?string
