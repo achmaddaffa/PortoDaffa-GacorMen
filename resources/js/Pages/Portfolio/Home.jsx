@@ -265,7 +265,7 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                                 <div className="p-3.5 rounded-xl bg-[#0D121F]/80 border border-slate-800/80">
                                     <span className="text-[10px] text-slate-400 block uppercase">Institution</span>
                                     <span className="text-xl font-extrabold text-emerald-300 truncate block">UGM</span>
-                                    <span className="text-[10px] text-slate-500 block truncate">IPK 3.39 / 4.00</span>
+                                    <span className="text-[10px] text-slate-500 block truncate">IPK 3.32 / 4.00</span>
                                 </div>
                                 <div className="p-3.5 rounded-xl bg-[#0D121F]/80 border border-slate-800/80">
                                     <span className="text-[10px] text-slate-400 block uppercase">Industry Target</span>

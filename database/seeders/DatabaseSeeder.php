@@ -272,7 +272,7 @@ class DatabaseSeeder extends Seeder
                 'organization' => 'Universitas Gadjah Mada (UGM) - Yogyakarta, Indonesia',
                 'period' => 'Aug 2024 - Sekarang',
                 'location' => 'Yogyakarta, Indonesia',
-                'description' => 'IPK: 3.39 / 4.00. Guest Speaker for the Junior High School Alumni Association Launching Event. Fokus pada Piping Engineering, P&ID, Desain Manufaktur, dan FEA.',
+                'description' => 'IPK: 3.32 / 4.00. Guest Speaker for the Junior High School Alumni Association Launching Event. Fokus pada Piping Engineering, P&ID, Desain Manufaktur, dan FEA.',
                 'sort_order' => 1,
             ],
             [
