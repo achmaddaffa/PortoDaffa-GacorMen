@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { ArrowLeft, Save, FolderKanban, CheckSquare, Sparkles } from 'lucide-react';
+import { ArrowLeft, Save, FolderKanban, CheckSquare, Sparkles, ImagePlus, Trash2, Upload } from 'lucide-react';
 
 export default function ProjectForm({ project, isEdit = false }) {
-    const { data, setData, post, put, processing, errors } = useForm({
+    const { data, setData, post, put, processing, errors, progress } = useForm({
         title: project?.title || '',
         category: project?.category || 'Piping Engineering',
         role: project?.role || '',
@@ -15,18 +15,43 @@ export default function ProjectForm({ project, isEdit = false }) {
         solution: project?.solution || '',
         result: project?.result || '',
         image_url: project?.image_url || '',
+        image: null,
+        remove_image: false,
         demo_url: project?.demo_url || '',
         drive_url: project?.drive_url || '',
         is_featured: project ? Boolean(project.is_featured) : true,
         sort_order: project?.sort_order ?? 0,
     });
 
+    const [preview, setPreview] = useState(project?.image_src || null);
+    const [dragging, setDragging] = useState(false);
+    const fileInput = useRef(null);
+
+    const pickFile = (file) => {
+        if (!file) {
+            return;
+        }
+        setData('image', file);
+        setData('remove_image', false);
+        setPreview(URL.createObjectURL(file));
+    };
+
+    const clearImage = () => {
+        setData('image', null);
+        setData('remove_image', true);
+        setPreview(null);
+        if (fileInput.current) {
+            fileInput.current.value = '';
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        const options = { forceFormData: true, preserveScroll: true };
         if (isEdit) {
-            put(`/admin/projects/${project.id}`);
+            put(`/admin/projects/${project.id}`, options);
         } else {
-            post('/admin/projects');
+            post('/admin/projects', options);
         }
     };
 
@@ -170,14 +195,86 @@ export default function ProjectForm({ project, isEdit = false }) {
 
                     {/* Media & Links */}
                     <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-5">
+                        <div className="flex items-center space-x-2 text-cyan-400 font-semibold text-sm pb-2 border-b border-slate-800">
+                            <ImagePlus className="w-4 h-4" />
+                            <span>Gambar Proyek</span>
+                        </div>
+
+                        <div
+                            className={`flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-slate-950 border transition ${dragging ? 'border-cyan-400/70 bg-cyan-500/5' : 'border-slate-700'}`}
+                            onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+                            onDragLeave={() => setDragging(false)}
+                            onDrop={(e) => {
+                                e.preventDefault();
+                                setDragging(false);
+                                pickFile(e.dataTransfer.files?.[0]);
+                            }}
+                        >
+                            <div className="shrink-0 w-full sm:w-40 aspect-[4/3] rounded-xl overflow-hidden bg-slate-900 border border-slate-700 flex items-center justify-center">
+                                {preview ? (
+                                    <img src={preview} alt="Pratinjau gambar proyek" className="w-full h-full object-cover object-center" />
+                                ) : (
+                                    <div className="text-center space-y-1 px-2">
+                                        <ImagePlus className="w-7 h-7 text-slate-600 mx-auto" />
+                                        <span className="block text-[10px] text-slate-600 leading-tight">Belum ada gambar</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="flex-1 space-y-2">
+                                <input
+                                    ref={fileInput}
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    onChange={(e) => pickFile(e.target.files?.[0])}
+                                    className="hidden"
+                                    id="project-image-file"
+                                />
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => fileInput.current?.click()}
+                                        className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-semibold flex items-center gap-2 border border-slate-600 transition"
+                                    >
+                                        <Upload className="w-3.5 h-3.5" />
+                                        <span>{preview ? 'Ganti Gambar' : 'Unggah Gambar'}</span>
+                                    </button>
+
+                                    {(preview || data.remove_image) && (
+                                        <button
+                                            type="button"
+                                            onClick={clearImage}
+                                            className="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center gap-2 border border-rose-500/30 transition"
+                                        >
+                                            <Trash2 className="w-3.5 h-3.5" />
+                                            <span>Hapus</span>
+                                        </button>
+                                    )}
+                                </div>
+                                <p className="text-[11px] text-slate-400 leading-relaxed">
+                                    Tarik & lepas gambar ke sini, atau klik <span className="text-slate-200 font-medium">Unggah Gambar</span>.
+                                </p>
+                                <p className="text-[11px] text-slate-500 leading-relaxed">
+                                    JPG, PNG, atau WebP · maks 8 MB · rasio disarankan 4:3 (lanskap).
+                                </p>
+                                {data.image && (
+                                    <p className="text-[11px] text-cyan-400 font-mono">
+                                        {data.image.name} · {(data.image.size / 1024 / 1024).toFixed(2)} MB
+                                        {progress ? ` · ${progress.percentage}%` : ''}
+                                    </p>
+                                )}
+                                {errors.image && <p className="text-xs text-rose-400">{errors.image}</p>}
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-xs font-medium text-slate-300 mb-1.5">URL Gambar / Render 3D</label>
+                                <label className="block text-xs font-medium text-slate-300 mb-1.5">URL Gambar Alternatif (opsional)</label>
                                 <input
                                     type="text"
                                     value={data.image_url}
                                     onChange={(e) => setData('image_url', e.target.value)}
-                                    placeholder="https://..."
+                                    placeholder="https://... (dipakai jika tidak ada file diunggah)"
                                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 text-sm focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
                                 />
                             </div>

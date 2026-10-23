@@ -54,6 +54,20 @@ class PortfolioController extends Controller
         ]);
     }
 
+    public function projectImage(Project $project, ?string $download = null)
+    {
+        abort_if(empty($project->image_path) || ! Storage::disk('local')->exists($project->image_path), 404);
+
+        $path = Storage::disk('local')->path($project->image_path);
+        $name = 'proyek-'.str()->slug($project->title ?: 'project').'.'.pathinfo($path, PATHINFO_EXTENSION);
+
+        return response()->file($path, [
+            'Content-Type' => mime_content_type($path) ?: 'image/jpeg',
+            'Content-Disposition' => ($download === 'download' ? 'attachment' : 'inline').'; filename="'.$name.'"',
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
+    }
+
     public function avatar(Request $request, ?string $download = null)
     {
         $profile = Profile::first();
@@ -61,11 +75,11 @@ class PortfolioController extends Controller
         abort_if(empty($profile?->avatar_path) || ! Storage::disk('local')->exists($profile->avatar_path), 404);
 
         $path = Storage::disk('local')->path($profile->avatar_path);
-        $name = 'foto-' . str()->slug($profile->full_name ?: 'profil') . '.' . pathinfo($path, PATHINFO_EXTENSION);
+        $name = 'foto-'.str()->slug($profile->full_name ?: 'profil').'.'.pathinfo($path, PATHINFO_EXTENSION);
 
         return response()->file($path, [
             'Content-Type' => mime_content_type($path) ?: 'image/jpeg',
-            'Content-Disposition' => ($download === 'download' ? 'attachment' : 'inline') . '; filename="' . $name . '"',
+            'Content-Disposition' => ($download === 'download' ? 'attachment' : 'inline').'; filename="'.$name.'"',
             'Cache-Control' => 'public, max-age=86400',
         ]);
     }

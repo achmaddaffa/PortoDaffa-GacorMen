@@ -449,9 +449,9 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                                 <div>
                                     {/* Project Image */}
                                     <div className="relative aspect-video overflow-hidden bg-slate-900">
-                                        {project.image_url ? (
+                                        {project.image_src ? (
                                             <img
-                                                src={project.image_url}
+                                                src={project.image_src}
                                                 alt={project.title}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                             />
@@ -1180,9 +1180,9 @@ export default function Home({ profile, projects = [], skills = [], experiences 
                             </button>
                         </div>
 
-                        {activeModalProject.image_url && (
+                        {activeModalProject.image_src && (
                             <img
-                                src={activeModalProject.image_url}
+                                src={activeModalProject.image_src}
                                 alt={activeModalProject.title}
                                 className="w-full h-56 object-cover rounded-2xl border border-slate-800"
                             />

@@ -65,9 +65,9 @@ export default function ProjectsIndex({ projects = [] }) {
                                 className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition flex flex-col md:flex-row md:items-center justify-between gap-5"
                             >
                                 <div className="flex items-start space-x-4">
-                                    {project.image_url ? (
+                                    {project.image_src ? (
                                         <img 
-                                            src={project.image_url} 
+                                            src={project.image_src} 
                                             alt={project.title}
                                             className="w-20 h-20 rounded-xl object-cover border border-slate-700/60 flex-shrink-0" 
                                         />

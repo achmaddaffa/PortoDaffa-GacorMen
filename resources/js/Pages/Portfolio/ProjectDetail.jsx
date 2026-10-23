@@ -79,10 +79,10 @@ export default function ProjectDetail({ project, relatedProjects = [] }) {
                 </div>
 
                 {/* Hero Image */}
-                {project.image_url && (
+                {project.image_src && (
                     <div className="relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-[#0D121F]">
                         <img 
-                            src={project.image_url} 
+                            src={project.image_src} 
                             alt={project.title}
                             className="w-full max-h-[480px] object-cover object-center" 
                         />

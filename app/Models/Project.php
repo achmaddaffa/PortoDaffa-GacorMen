@@ -17,6 +17,8 @@ class Project extends Model
         'sort_order' => 'integer',
     ];
 
+    protected $appends = ['image_src'];
+
     protected static function boot()
     {
         parent::boot();
@@ -26,5 +28,17 @@ class Project extends Model
                 $project->slug = Str::slug($project->title);
             }
         });
+    }
+
+    /**
+     * Gambar proyek: file upload diutamakan, URL eksternal jadi fallback.
+     */
+    public function getImageSrcAttribute(): ?string
+    {
+        if (! empty($this->image_path)) {
+            return route('portfolio.project-image', ['project' => $this->id, 'v' => substr(md5($this->image_path), 0, 8)]);
+        }
+
+        return $this->image_url ?: null;
     }
 }

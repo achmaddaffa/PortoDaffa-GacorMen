@@ -19,6 +19,7 @@ Route::get('/', [PortfolioController::class, 'index'])->name('portfolio.home');
 Route::get('/cv', [PortfolioController::class, 'cv'])->name('portfolio.cv');
 Route::get('/projects/{project:slug}', [PortfolioController::class, 'project'])->name('portfolio.project');
 Route::get('/avatar/{download?}', [PortfolioController::class, 'avatar'])->name('portfolio.avatar');
+Route::get('/projects/{project}/image/{download?}', [PortfolioController::class, 'projectImage'])->name('portfolio.project-image');
 Route::post('/contact', [PortfolioController::class, 'contact'])->name('portfolio.contact');
 
 /*
