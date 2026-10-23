@@ -46,6 +46,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('skills', SkillController::class)->only(['index', 'store', 'update', 'destroy']);
 
     // Experiences CRUD
+    Route::post('/experiences/reorder', [ExperienceController::class, 'reorder'])->name('experiences.reorder');
+    Route::post('/experiences/sort-by-period', [ExperienceController::class, 'sortByPeriod'])->name('experiences.sort-by-period');
     Route::resource('experiences', ExperienceController::class)->only(['index', 'store', 'update', 'destroy']);
 
     // Contact Messages Inbox

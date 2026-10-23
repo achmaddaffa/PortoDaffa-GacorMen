@@ -58,4 +58,43 @@ class ExperienceController extends Controller
 
         return back()->with('success', 'Riwayat berhasil dihapus.');
     }
+
+    /**
+     * Simpan urutan baru hasil drag & drop.
+     */
+    public function reorder(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:experiences,id',
+        ]);
+
+        foreach ($validated['ids'] as $index => $id) {
+            Experience::whereKey($id)->update(['sort_order' => $index + 1]);
+        }
+
+        return back()->with('success', 'Urutan riwayat berhasil disimpan.');
+    }
+
+    /**
+     * Urutkan semua riwayat berdasarkan periode (paling lama / paling baru dulu).
+     */
+    public function sortByPeriod(Request $request)
+    {
+        $direction = $request->validate([
+            'direction' => 'required|string|in:asc,desc',
+        ])['direction'];
+
+        $experiences = Experience::all()->sortBy(
+            fn (Experience $experience) => $experience->period_start?->timestamp ?? PHP_INT_MAX,
+            SORT_REGULAR,
+            $direction === 'desc'
+        )->values();
+
+        foreach ($experiences as $index => $experience) {
+            $experience->update(['sort_order' => $index + 1]);
+        }
+
+        return back()->with('success', 'Riwayat diurutkan dari periode paling '.($direction === 'asc' ? 'lama' : 'baru').'.');
+    }
 }
